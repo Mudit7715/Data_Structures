@@ -101,14 +101,14 @@ class BinaryTreeNode:
         
         return elements
     
-    def delete(self, val):
+    def delete_from_min(self, val):
 
         if val < self.data:
             if self.left:
-                self.left = self.left.delete(val)
+                self.left = self.left.delete_from_min(val)
         elif val > self.data:
             if self.right:
-                self.right = self.right.delete(val)
+                self.right = self.right.delete_from_min(val)
         else:
             if self.right is None and self.left is None:
                 return None
@@ -119,7 +119,29 @@ class BinaryTreeNode:
             
             min_val = self.right.find_min()
             self.data = min_val
-            self.right = self.right.delete(min_val)
+            self.right = self.right.delete_from_min(min_val)
+
+        return self
+    
+    def delete_from_max(self, val):
+
+        if val < self.data:
+            if self.left:
+                self.left = self.left.delete_from_max(val)
+        elif val > self.data:
+            if self.right:
+                self.right = self.right.delete_from_max(val)
+        else:
+            if self.right is None and self.left is None:
+                return None
+            elif self.left is None:
+                return self.right
+            elif self.right is None:
+                return self.left
+            
+            max_val = self.left.find_max()
+            self.data = max_val
+            self.left = self.left.delete_from_max(max_val)
 
         return self
 
@@ -142,10 +164,13 @@ if __name__ == '__main__':
     a3 = root.postorder_traversal()
     print(a1,a2,a3)
 
-    root.delete(20)
+    root.delete_from_min(20)
 
     print(root.inOrderTraversal())
 
+    root.delete_from_max(17)
+
+    print(root.inOrderTraversal())
     sum = root.calculate_sum()
     print(sum)
 
