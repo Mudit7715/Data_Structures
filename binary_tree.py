@@ -22,6 +22,48 @@ class BinaryTreeNode:
             else:
                 self.right = BinaryTreeNode(data)
 
+    
+    def search_tree(self, val):
+        if self.data == val:
+            return True
+        
+        elif val < self.data:
+            if self.left:
+                return self.left.search_tree(val)
+            else:
+                return False
+            
+        elif val > self.data:
+            if self.right:
+                return self.right.search_tree(val)
+            else:
+                return False
+    
+    def find_min(self):
+        if self.left:
+            return self.left.find_min()
+        else:
+            return self.data
+        
+    def find_max(self):
+        if self.right:
+            return self.right.find_max()
+        else:
+            return self.data
+        
+    def calculate_sum(self):
+        
+        sum = self.data
+
+        if self.left:
+            sum += self.left.calculate_sum()
+
+        if self.right:
+            sum += self.right.calculate_sum()
+        
+        return sum
+
+            # if self.left:
     def inOrderTraversal(self):
         elements = []
 
@@ -34,17 +76,53 @@ class BinaryTreeNode:
             elements += self.right.inOrderTraversal()
 
         return elements
+
+    def preorder_traversal(self):
+        elements = [self.data]
+
+        if self.left:
+            elements += self.left.preorder_traversal()
+        
+        if self.right:
+            elements += self.right.preorder_traversal()
+        
+        return elements
     
+    def postorder_traversal(self):
+        elements = []
+
+        if self.left:
+            elements += self.left.postorder_traversal()
+        
+        if self.right:
+            elements += self.right.postorder_traversal()
+
+        elements.append(self.data)
+        
+        return elements
+        
+                
+
 def build_tree(elements):
     root = BinaryTreeNode(elements[0])
 
-    for i in range(len(elements)):
+    for i in range(1,len(elements)):
         root.add_child(elements[i])
 
     return root
     
 if __name__ == '__main__':
-    numbers = [45,23,67,89,54,2,6,8,34,56]
+    numbers = [1,2,3,4,5,6,7,8]
 
-    n_tree = build_tree(numbers)
-    print(n_tree.inOrderTraversal())
+    a1 = a2 = a3 = [], [], []
+
+    root = build_tree(numbers)
+    a1 = root.inOrderTraversal()
+    a2 = root.preorder_traversal()
+    a3 = root.postorder_traversal()
+    print(a1,a2,a3)
+
+    sum = root.calculate_sum()
+    print(sum)
+
+
